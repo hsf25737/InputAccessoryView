@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/input_accessory_panel_frame_layout"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <LinearLayout
+        android:id="@+id/input_accessory_edit_bar"
+        style="@style/input_accessory_bar_style">
+
+        <TextView
+            android:text="www."
+            style="@style/search_panel_text_view" />
+
+        <TextView
+            android:text="m."
+            style="@style/search_panel_text_view" />
+
+        <TextView
+            android:text="剪切板"
+            style="@style/search_panel_text_view" />
+
+        <TextView
+            android:text="无痕浏览"
+            style="@style/search_panel_text_view"
+            android:background="@drawable/input_accessory_panel_dark"
+            android:textColor="@color/white"/>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/input_accessory_bar_with_slide_bar"
+        style="@style/input_accessory_bar_style">
+
+        <TextView
+            android:text="."
+            style="@style/search_panel_text_view"
+            android:layout_weight="0.5" />
+
+        <TextView
+            android:text=","
+            style="@style/search_panel_text_view"
+            android:layout_weight="0.5"/>
+
+        <TextView
+            android:layout_weight="1"
+            android:text=".cn"
+            style="@style/search_panel_text_view" />
+
+        <View
+            style="@style/search_panel_item" />
+
+        <TextView
+            android:text=".com"
+            style="@style/search_panel_text_view" />
+
+        <TextView
+            android:text="无痕浏览"
+            style="@style/search_panel_text_view"
+            android:background="@drawable/input_accessory_panel_dark"
+            android:textColor="@color/white"/>
+
+    </LinearLayout>
+
+</FrameLayout>
