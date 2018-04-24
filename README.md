@@ -13,5 +13,5 @@ new InputAccessoryPanelFragment()
                 .attachEditText(editText);
 ```
 
-模仿UC浏览器的输入增强栏效果:
+模仿UC浏览器的输入增强栏效果:  
 <img src="./screenshot/1.gif" width = "329" height = "587" align=center />
