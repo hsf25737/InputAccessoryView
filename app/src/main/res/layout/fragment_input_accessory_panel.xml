@@ -9,19 +9,21 @@
         style="@style/input_accessory_bar_style">
 
         <TextView
-            android:text="www."
+            android:text="@string/www"
             style="@style/search_panel_text_view" />
 
         <TextView
-            android:text="m."
+            android:text="@string/m"
             style="@style/search_panel_text_view" />
 
         <TextView
-            android:text="剪切板"
+            android:id="@+id/clipboard"
+            android:text="@string/clipboard"
             style="@style/search_panel_text_view" />
 
         <TextView
-            android:text="无痕浏览"
+            android:id="@+id/edit_bar_incognito"
+            android:text="@string/incognito"
             style="@style/search_panel_text_view"
             android:background="@drawable/input_accessory_panel_dark"
             android:textColor="@color/white"/>
@@ -33,29 +35,31 @@
         style="@style/input_accessory_bar_style">
 
         <TextView
-            android:text="."
+            android:text="@string/period"
             style="@style/search_panel_text_view"
             android:layout_weight="0.5" />
 
         <TextView
-            android:text=","
+            android:text="@string/comma"
             style="@style/search_panel_text_view"
             android:layout_weight="0.5"/>
 
         <TextView
             android:layout_weight="1"
-            android:text=".cn"
+            android:text="@string/cn"
             style="@style/search_panel_text_view" />
 
         <View
+            android:id="@+id/slide_view"
             style="@style/search_panel_item" />
 
         <TextView
-            android:text=".com"
+            android:text="@string/com"
             style="@style/search_panel_text_view" />
 
         <TextView
-            android:text="无痕浏览"
+            android:id="@+id/slide_bar_incognito"
+            android:text="@string/incognito"
             style="@style/search_panel_text_view"
             android:background="@drawable/input_accessory_panel_dark"
             android:textColor="@color/white"/>

@@ -6,7 +6,7 @@ import android.support.v4.app.Fragment;
 import android.view.View;
 import android.view.ViewTreeObserver;
 
-public class KeyboardComposer {
+public class KeyboardUtil {
 
     private View view;
     private static final int SOFT_KEY_BOARD_MIN_HEIGHT = 100;
@@ -19,19 +19,19 @@ public class KeyboardComposer {
     private Consumer onKeyboardHideListener;
     private ViewTreeObserver.OnGlobalLayoutListener layoutListener;
 
-    public KeyboardComposer registerFragment(Fragment f) {
+    public KeyboardUtil registerFragment(Fragment f) {
         this.view = f.getView();
         registerView(this.view);
         return this;
     }
 
-    public KeyboardComposer registerActivity(Activity a) {
+    public KeyboardUtil registerActivity(Activity a) {
         this.view = a.getWindow().getDecorView().findViewById(android.R.id.content);
         registerView(this.view);
         return this;
     }
 
-    private KeyboardComposer registerView(final View v) {
+    private KeyboardUtil registerView(final View v) {
         layoutListener = () -> {
             Rect r = new Rect();
             v.getWindowVisibleDisplayFrame(r);
@@ -59,12 +59,12 @@ public class KeyboardComposer {
         return this;
     }
 
-    public KeyboardComposer setOnKeyboardShowListener(Consumer showListener) {
+    public KeyboardUtil setOnKeyboardShowListener(Consumer showListener) {
         onKeyboardShowListener = showListener;
         return this;
     }
 
-    public KeyboardComposer setOnKeyboardHideListener(Consumer hideListener) {
+    public KeyboardUtil setOnKeyboardHideListener(Consumer hideListener) {
         onKeyboardHideListener = hideListener;
         return this;
     }

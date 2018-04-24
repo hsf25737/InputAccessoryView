@@ -17,21 +17,25 @@ import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import pan.chiang.com.inputaccessoryview.R;
-import pan.chiang.com.inputaccessoryview.util.KeyboardComposer;
+import pan.chiang.com.inputaccessoryview.util.KeyboardUtil;
 
-public class InputAccessoryPanelFragment extends Fragment {
+import static pan.chiang.com.inputaccessoryview.util.ViewUtil.hideView;
+import static pan.chiang.com.inputaccessoryview.util.ViewUtil.showView;
+
+public class InputAccessoryPanelFragment extends Fragment implements View.OnClickListener {
 
     private FragmentActivity fragmentActivity;
-    private Fragment parentFragment;
     private EditText editText;
 
     private FrameLayout inputAccessoryPanelFrameLayout;
     private LinearLayout inputAccessoryEditBar;
     private LinearLayout inputAccessoryBarWithSlideBar;
 
-    private KeyboardComposer keyboardComposer = new KeyboardComposer();
+    private KeyboardUtil keyboardComposer = new KeyboardUtil();
 
     @Nullable
     @Override
@@ -42,18 +46,23 @@ public class InputAccessoryPanelFragment extends Fragment {
     }
 
     private void initView(@NonNull View v) {
+
         inputAccessoryPanelFrameLayout = v.findViewById(R.id.input_accessory_panel_frame_layout);
         inputAccessoryEditBar = v.findViewById(R.id.input_accessory_edit_bar);
         inputAccessoryBarWithSlideBar = v.findViewById(R.id.input_accessory_bar_with_slide_bar);
+
+        setChildViewClickListener(inputAccessoryEditBar);
+        setChildViewClickListener(inputAccessoryBarWithSlideBar);
+    }
+
+    private void setChildViewClickListener(ViewGroup viewGroup) {
+        for (int i = 0; i < viewGroup.getChildCount(); i++) {
+            viewGroup.getChildAt(i).setOnClickListener(this);
+        }
     }
 
     public InputAccessoryPanelFragment withActivity(@NonNull FragmentActivity fragmentActivity) {
         this.fragmentActivity = fragmentActivity;
-        return this;
-    }
-
-    public InputAccessoryPanelFragment withFragment(@NonNull Fragment parentFragment) {
-        this.parentFragment = parentFragment;
         return this;
     }
 
@@ -64,7 +73,7 @@ public class InputAccessoryPanelFragment extends Fragment {
         return this;
     }
 
-    public void bind(final EditText editText) {
+    public void attachEditText(final EditText editText) {
         this.editText = editText;
         setEditTouchListener(editText);
         setEditTextChangeListener(editText);
@@ -75,7 +84,7 @@ public class InputAccessoryPanelFragment extends Fragment {
     private void setEditTouchListener(EditText editText) {
         editText.setOnTouchListener((View v, MotionEvent e) -> {
             if (e.getAction() == MotionEvent.ACTION_UP) {
-                showPanel();
+                showEmptyInputPanel();
             }
             return false;
         });
@@ -90,7 +99,10 @@ public class InputAccessoryPanelFragment extends Fragment {
             @Override
             public void afterTextChanged(Editable editable) {
                 if (editable.length() > 0) {
-                    showPartSlidePanel();
+                    editText.setSelection(editable.length());
+                    showFilledInputPanel();
+                } else {
+                    showEmptyInputPanel();
                 }
             }
         });
@@ -100,32 +112,20 @@ public class InputAccessoryPanelFragment extends Fragment {
         keyboardComposer
                 .registerActivity(fragmentActivity)
                 .setOnKeyboardHideListener((int keyboardHeight) -> {
-            hide(inputAccessoryPanelFrameLayout);
+            hideView(inputAccessoryPanelFrameLayout);
         });
     }
 
-    public void showPanel() {
-        show(inputAccessoryPanelFrameLayout);
-        show(inputAccessoryEditBar);
-        hide(inputAccessoryBarWithSlideBar);
+    public void showEmptyInputPanel() {
+        showView(inputAccessoryPanelFrameLayout);
+        showView(inputAccessoryEditBar);
+        hideView(inputAccessoryBarWithSlideBar);
     }
 
-    public void showPartSlidePanel() {
-        show(inputAccessoryPanelFrameLayout);
-        hide(inputAccessoryEditBar);
-        show(inputAccessoryBarWithSlideBar);
-    }
-
-    private void show(View view) {
-        if (view.getVisibility() != View.VISIBLE) {
-            view.setVisibility(View.VISIBLE);
-        }
-    }
-
-    private void hide(View view) {
-        if (view.getVisibility() == View.VISIBLE) {
-            view.setVisibility(View.GONE);
-        }
+    public void showFilledInputPanel() {
+        showView(inputAccessoryPanelFrameLayout);
+        hideView(inputAccessoryEditBar);
+        showView(inputAccessoryBarWithSlideBar);
     }
 
     @Override
@@ -134,6 +134,23 @@ public class InputAccessoryPanelFragment extends Fragment {
         this.fragmentActivity = null;
         if (keyboardComposer != null) {
             keyboardComposer.removeListener();
+        }
+    }
+
+    @Override
+    public void onClick(View view) {
+        switch (view.getId()) {
+            case R.id.clipboard:
+            case R.id.edit_bar_incognito:
+            case R.id.slide_bar_incognito:
+            case R.id.slide_view:
+                Toast.makeText(getActivity(), String.valueOf(view.getId()), Toast.LENGTH_SHORT).show();
+                return;
+        }
+
+        if (view instanceof TextView) {
+            CharSequence toBeAdd = ((TextView)view).getText();
+            editText.setText(editText.getText().append(toBeAdd));
         }
     }
 }
